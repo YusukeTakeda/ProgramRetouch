@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class BuyDetailDataBeans  implements Serializable {
 	private int id;
-	private int buyId;
+	private  int buyId;
 	private int itemId;
 
 	public int getId() {

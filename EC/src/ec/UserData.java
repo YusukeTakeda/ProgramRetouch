@@ -1,6 +1,7 @@
 package ec;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +32,7 @@ public class UserData extends HttpServlet {
 		try {
 			// ログイン時に取得したユーザーIDをセッションから取得
 			int userId = (int) session.getAttribute("userId");
+//			int id = (int) session.getAttribute("id");
 			// 更新確認画面から戻ってきた場合Sessionから取得。それ以外はuserIdでユーザーを取得
 			UserDataBeans udb = session.getAttribute("returnUDB") == null ? UserDAO.getUserDataBeansByUserId(userId) : (UserDataBeans) EcHelper.cutSessionAttribute(session, "returnUDB");
 
@@ -43,13 +45,23 @@ public class UserData extends HttpServlet {
 			request.setAttribute("validationMessage", validationMessage);
 			request.setAttribute("udb", udb);
 
-			BuyDataBeans BDB = BuyDAO.getBuyDataBeansByBuyId(userId);
+			// get id from t_buy table
+//			BuyDataBeans bdb = new BuyDataBeans();
+//			int id = bdb.getId();
+
+			// こっちをリスト化
+			ArrayList<BuyDataBeans> BDBList =BuyDAO.getBuyDataBeansByUserId(userId);
 			//リクエストパラメーターにセット
-			request.setAttribute("createDate", BDB.getBuyDate());
-			request.setAttribute("deliveryMethodName", BDB.getDeliveryMethodName());
-			request.setAttribute("totalPrice", BDB.getTotalPrice());
+			request.setAttribute("BDBList", BDBList);
+//			request.setAttribute("createDate", ((BuyDataBeans) BDBList).getBuyDate());
+//			request.setAttribute("deliveryMethodName", ((BuyDataBeans) BDBList).getDeliveryMethodName());
+//			request.setAttribute("totalPrice", ((BuyDataBeans) BDBList).getTotalPrice());
 
-
+//			BuyDetailDAO buyDetailDAO = new BuyDetailDAO();
+//			// name, price
+//			List<ItemDataBeans>  IDBList = buyDetailDAO.getItemDataBeansListByBuyId(userId);
+//
+//			request.setAttribute("IDBList", IDBList);
 
 			request.getRequestDispatcher(EcHelper.USER_DATA_PAGE).forward(request, response);
 

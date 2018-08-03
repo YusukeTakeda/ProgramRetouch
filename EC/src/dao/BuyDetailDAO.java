@@ -90,7 +90,7 @@ public class BuyDetailDAO {
      *             購入詳細情報のデータを持つJavaBeansのリスト
      * @throws SQLException
      */
-	public static ArrayList<ItemDataBeans> getItemDataBeansListByBuyId(int buyId) throws SQLException {
+	public static ArrayList<ItemDataBeans> getItemDataBeansListByBuyId(int userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -104,7 +104,7 @@ public class BuyDetailDAO {
 					+ " JOIN m_item"
 					+ " ON t_buy_detail.item_id = m_item.id"
 					+ " WHERE t_buy_detail.buy_id = ?");
-			st.setInt(1, buyId);
+			st.setInt(1, userId);
 
 			ResultSet rs = st.executeQuery();
 			ArrayList<ItemDataBeans> buyDetailItemList = new ArrayList<ItemDataBeans>();
@@ -130,5 +130,39 @@ public class BuyDetailDAO {
 			}
 		}
 	}
+//	public static int GetBuyId(int userId) {
+//		Connection con = null;
+//		PreparedStatement st = null;
+//		try {
+//			con = DBManager.getConnection();
+//
+//			st = con.prepareStatement(
+//					"SELECT buy_id"
+//					+"FROM t_buy_detail"
+//					+"JOIN t_buy"
+//					+"ON t_buy_detail.buy_id = t_buy.id"
+//					+"where t_buy.user_id = ?");
+//
+//			st.setInt(1, userId);
+//
+//			ResultSet rs = st.executeQuery();
+//			if (rs.next()) {
+//				ItemDataBeans idb = new ItemDataBeans();
+//				idb.setId(rs.getInt("id"));
+//
+//			}
+//
+//			return ;
+//			System.out.println("searching GetBuyId by  has been completed");
+//		} catch (SQLException e) {
+//			System.out.println(e.getMessage());
+//			throw new SQLException(e);
+//		} finally {
+//			if (con != null) {
+//				con.close();
+//			}
+//		}
+//	}
+//	return:
 
 }
